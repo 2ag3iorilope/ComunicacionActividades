@@ -4,37 +4,50 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText editTextIzena;
     Button BerifikatuBotoia;
+    TextView textView;
+
+
+    ActivityResultLauncher<Intent> startActivityForResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-    editTextIzena = findViewById(R.id.editTextText);
-    BerifikatuBotoia = findViewById(R.id.button);
+
+        editTextIzena = findViewById(R.id.editTextText);
+        BerifikatuBotoia = findViewById(R.id.button);
+        textView = findViewById(R.id.textView3);
+
+
+        startActivityForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                Intent data = result.getData();
+                String resultado = data != null ? data.getStringExtra("emaitza") : "Ez da ezer lortu";
+                textView.setText("Emaitza: " + resultado);
+            }
+        });
+
 
         BerifikatuBotoia.setOnClickListener(v -> {
             String Izena = editTextIzena.getText().toString();
 
 
             Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-
-
             intent.putExtra("izena", Izena);
 
 
-            startActivity(intent);
+            startActivityForResult.launch(intent);
         });
     }
 }

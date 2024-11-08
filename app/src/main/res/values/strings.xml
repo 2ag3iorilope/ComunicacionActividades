@@ -3,4 +3,6 @@
     <string name="TxtViewIzen">Izena:</string>
     <string name="HintText">Sartu zure izena</string>
     <string name="Btnberfi">BERIFIKATU</string>
+    <string name="Baieztatu">Baieztatu</string>
+    <string name="Ezeztatu">Ezeztatu</string>
 </resources>
